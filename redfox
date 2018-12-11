@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Copyright © 2018 Кутный Максим
+
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+version="Красная Лиса - простой минималистичный веб-обозревать написанный на sh"
+usage="Использование: redfox URI-ссылка на сайт
+	или: redfox [КЛЮЧ]
+
+Ключи и дополнительные возможности:
+-v      показать информацию о версии и выйти
+-h      показать эту справку и выйти"
+
+width=1500
+height=800
+
+function about () {
+yad --image=htop --text="Красная Лиса - простой минималистичный веб-обозревать написанный на sh" --width=400 --height=200 --button="Назад":0
+}
+
+
+
+function uriset () {
+uri=`yad --width=400 --title="Переход на веб страницу" --entry --text="Ссылка"  --image "applications-internet" --button="Выйти":0 --button="Вперёд":1`
+}
+
+function startweb () {
+yad --html --browser --uri=$uri --print-uri --width=$width --height=$height
+
+}
+
+for arg
+do
+  case "$arg" in
+  -h)      printf '%s\n' "$usage"   || exit 1; exit;;
+  -v)   printf '%s\n' "$version" || exit 1; exit;;
+  *) uri=$arg; startweb  || exit 1; exit;;
+ esac
+done
+
+
+
+uriset
+startweb
+echo $?
+
+
